@@ -1,4 +1,5 @@
 # FitnessTracker
+**[Live Fitness Tracker](#)**
 
 ## Description
 This is an app to keep track of your workout regime, exercises in each workout and how much you've done overall.
@@ -14,6 +15,7 @@ This is an app to keep track of your workout regime, exercises in each workout a
 You'll need vsCode. First use `npm init -y`, then `npm install` to include all necessary node packages.
 ## Usage
 Once everything is installed, input node server.js to initiate the app and look up http://localhost:4000 in your browser of choice.
+
 
 ![Demonstration picture](https://github.com/JusticeGTR/FitnessTracker/blob/main/assets/images/Screenshot%20(123).png)  
 
