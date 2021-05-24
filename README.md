@@ -15,7 +15,7 @@ You'll need vsCode. First use `npm init -y`, then `npm install` to include all n
 ## Usage
 Once everything is installed, input node server.js to initiate the app and look up http://localhost:4000 in your browser of choice.
 
-![Demonstration picture]()  
+![Demonstration picture](https://github.com/JusticeGTR/FitnessTracker/blob/main/assets/images/Screenshot%20(123).png)  
 
 
 ## License
