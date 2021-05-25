@@ -45,8 +45,6 @@ router.get('/api/workouts', (req, res) => {
         console.log(err)
         res.json(err)
     })
-
-
 })
 
 router.post('/api/workouts', ({}, res) => {
@@ -61,6 +59,16 @@ router.post('/api/workouts', ({}, res) => {
 })
 
 router.post('/api/workouts', ({ body }, res) => {
+    Workout.exercises.create(body)
+    .then(newExercise => {
+        res.json(newExercise);
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    })
+})
+
+router.post('/api/workouts/:id', ({ body }, res) => {
     Workout.exercises.create(body)
     .then(newExercise => {
         res.json(newExercise);
