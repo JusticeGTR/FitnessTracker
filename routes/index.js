@@ -11,20 +11,16 @@ router.get('/stats', (req, res) => res.sendFile(path.join(__dirname, '../public/
 
 //get route for data on dashboard
 router.get('/api/workouts/range', (req, res) => {
-    Workout.find({})
-    Workout.workouts.aggregate( [
+
+    Workout.aggregate( [
         {
           $addFields: {
-            totalWeight: { $sum: "$weight" } ,
-            totalDuration: { $sum: "$duration" },
-            totalDistance: { $sum: "$distance" },
+            totalWeight: { $sum: "$exercises.weight" } ,
+            totalDuration: { $sum: "$exercises.duration" },
           }
         },
-        {
-          $addFields: { totalScore:
-            { $add: [ "$totalHomework", "$totalQuiz", "$extraCredit" ] } }
-        }
      ] )
+    .sort({ date: -1 }).limit(7)
     .then(Workout => {
       res.json(Workout);
     })
@@ -32,37 +28,46 @@ router.get('/api/workouts/range', (req, res) => {
       res.status(400).json(err);
     });
 })
+
 //get route for last workout on homepage
 router.get('/api/workouts', (req, res) => {
-    // db.Book.find({})
-    // .then(dbBook => {
-    //   res.json(dbBook);
-    // })
-    // .catch(err => {
-    //   res.json(err);
-    // });
     console.log('We hit the get workout route')
-    Workout.find({})
+    Workout.aggregate([
+        {
+          $addFields: {
+            totalDuration: { $sum: "$exercises.duration" },
+          }
+        },
+     ])
     .then(allWorkouts => {
         res.json(allWorkouts)})
     .catch(err => {
         console.log(err)
-        // res.json(err)
+        res.json(err)
     })
 
 
 })
-//two post routes for adding exercises to a workout, one for each exercise type
-router.post('/api/workouts', ({ body }, res) => {
-    const workout = new Workout(body);
 
-    Exercise.create(body)
-    .then(dbexercise => {
-      res.json(dbexercise);
+router.post('/api/workouts', ({}, res) => {
+
+    Workout.create()
+    .then(newWorkout => {
+      res.json(newWorkout);
     })
     .catch(err => {
       res.status(400).json(err);
     });
+})
+
+router.post('/api/workouts', ({ body }, res) => {
+    Workout.exercises.create(body)
+    .then(newExercise => {
+        res.json(newExercise);
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    })
 })
 
 module.exports = router
