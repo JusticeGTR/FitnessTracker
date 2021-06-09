@@ -47,20 +47,22 @@ router.get('/api/workouts', (req, res) => {
     })
 })
 
-router.post('/api/workouts', ({}, res) => {
+// router.post('/api/workouts', ({}, res) => {
 
-    Workout.create()
-    .then(newWorkout => {
-      res.json(newWorkout);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-})
+//     Workout.create()
+//     .then(newWorkout => {
+//       res.json(newWorkout);
+//     })
+//     .catch(err => {
+//       res.status(400).json(err);
+//     });
+// })
 
 router.post('/api/workouts', ({ body }, res) => {
-    Workout.exercises.create(body)
+  console.log('WE HIT THE CREATE ROUTE!!!!!!! $$$$$$$$$$$$$$$')
+    Workout.create(body)
     .then(newExercise => {
+      console.log('we made an exercise', newExercise)
         res.json(newExercise);
     })
     .catch(err => {
@@ -77,5 +79,20 @@ router.post('/api/workouts/:id', ({ body }, res) => {
         res.status(400).json(err);
     })
 })
+
+router.put('/api/workouts/:id', (req, res) => {
+  exercises.findOneAndUpdate(
+    { _id: req.body.params }, 
+    { $push: { exercises: req.body  } },
+   function (error, success) {
+         if (error) {
+             console.log(error);
+         } else {
+           res.json(success)
+             console.log(success);
+         }
+     });
+    });
+
 
 module.exports = router
