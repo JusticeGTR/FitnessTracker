@@ -80,18 +80,32 @@ router.post('/api/workouts/:id', ({ body }, res) => {
     })
 })
 
-router.put('/api/workouts/:id', (req, res) => {
-  exercises.findOneAndUpdate(
-    { _id: req.body.params }, 
-    { $push: { exercises: req.body  } },
-    )
-    .then (updateExercise=> {
-      res.json(updateExercise)
-      })
-      .catch(err => {
-          res.status(err);
-      })
-    });
+// router.put('/api/workouts/:id', (req, res) => {
+//   exercises.findOneAndUpdate(
+//     { _id: req.body.params }, 
+//     { $push: { exercises: req.body  } },
+//    function (error, success) {
+//          if (error) {
+//              console.log(error);
+//          } else {
+//            res.json(success)
+//              console.log(success);
+//          }
+//      });
+//     });
+
+    router.put('/api/workouts/:id', (req, res) => {
+      exercises.findOneAndUpdate(
+        { _id: req.body.params }, 
+        { $push: { exercises: req.body  } },
+        )
+        .then (updateExercise=> {
+          res.json(updateExercise)
+          })
+          .catch(err => {
+              res.status(err);
+          })
+        });
 
 
 module.exports = router
