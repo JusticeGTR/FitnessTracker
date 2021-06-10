@@ -20,9 +20,11 @@ router.get('/api/workouts/range', (req, res) => {
           }
         },
      ] )
-    .sort({ date: -1 }).limit(7)
-    .then(Workout => {
-      res.json(Workout);
+    .sort({ day: -1 }).limit(7)
+    .then(lastWorkouts => {
+      lastWorkouts.reverse();
+      console.log(lastWorkouts)
+      res.json(lastWorkouts);
     })
     .catch(err => {
       res.status(400).json(err);
@@ -95,11 +97,13 @@ router.post('/api/workouts/:id', ({ body }, res) => {
 //     });
 
     router.put('/api/workouts/:id', (req, res) => {
-      exercises.findOneAndUpdate(
-        { _id: req.body.params }, 
+      console.log(req.body)
+      Workout.findOneAndUpdate(
+        { _id: req.params.id }, 
         { $push: { exercises: req.body  } },
         )
         .then (updateExercise=> {
+          console.log(updateExercise)
           res.json(updateExercise)
           })
           .catch(err => {
